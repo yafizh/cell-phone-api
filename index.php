@@ -24,4 +24,23 @@ switch (strtoupper($route)) {
                 break;
         }
         break;
+    case 'EMPLOYEES':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/employees/index.php');
+                else
+                    include_once('./api/employees/show.php');
+                break;
+            case 'POST':
+                include_once('./api/employees/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/employees/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/employees/delete.php');
+                break;
+        }
+        break;
 }
