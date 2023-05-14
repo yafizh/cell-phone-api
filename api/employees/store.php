@@ -5,11 +5,10 @@ try {
 
     $conn->beginTransaction();
     
-    $query = "INSERT INTO users (username, password, status) VALUES (:username, :password, :status)";
+    $query = "INSERT INTO users (username, password, status) VALUES (:username, :password, 'EMPLOYEE')";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':username', $_POST['username']);
     $stmt->bindParam(':password', $_POST['password']);
-    $stmt->bindParam(':status', $_POST['status']);
     $stmt->execute();
 
     $user_id = $conn->lastInsertId();
