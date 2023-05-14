@@ -5,22 +5,22 @@ $param = explode('/', $_SERVER['REQUEST_URI'])[3] ?? null;
 $request_method = $_SERVER["REQUEST_METHOD"];
 
 switch (strtoupper($route)) {
-    case 'USERS':
+    case 'ADMIN':
         switch ($request_method) {
             case 'GET':
                 if (is_null($param))
-                    include_once('./api/users/index.php');
+                    include_once('./api/admin/index.php');
                 else
-                    include_once('./api/users/show.php');
+                    include_once('./api/admin/show.php');
                 break;
             case 'POST':
-                include_once('./api/users/store.php');
+                include_once('./api/admin/store.php');
                 break;
             case 'PUT':
-                include_once('./api/users/update.php');
+                include_once('./api/admin/update.php');
                 break;
             case 'DELETE':
-                include_once('./api/users/delete.php');
+                include_once('./api/admin/delete.php');
                 break;
         }
         break;

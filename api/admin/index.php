@@ -1,6 +1,6 @@
 <?php
 
-$stmt = $conn->prepare("SELECT * FROM users");
+$stmt = $conn->prepare("SELECT * FROM users WHERE status = 'ADMIN'");
 $stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
