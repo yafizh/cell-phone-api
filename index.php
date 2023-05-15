@@ -1,7 +1,7 @@
 <?php
 require_once('database/connection.php');
-$route = explode('/', $_SERVER['REQUEST_URI'])[2] ?? null;
-$param = explode('/', $_SERVER['REQUEST_URI'])[3] ?? null;
+$route = explode('/', $_SERVER['PHP_SELF'])[3] ?? null;
+$param = explode('/', $_SERVER['PHP_SELF'])[4] ?? null;
 $request_method = $_SERVER["REQUEST_METHOD"];
 
 switch ($route) {
@@ -59,6 +59,25 @@ switch ($route) {
                 break;
             case 'DELETE':
                 include_once('./api/item_types/delete.php');
+                break;
+        }
+        break;
+    case 'items':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/items/index.php');
+                else
+                    include_once('./api/items/show.php');
+                break;
+            case 'POST':
+                include_once('./api/items/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/items/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/items/delete.php');
                 break;
         }
         break;
