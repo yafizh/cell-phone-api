@@ -77,14 +77,6 @@ CREATE TABLE `db_cell_phone`.`item_sale_details` (
 );
 
 CREATE TABLE `db_cell_phone`.`credits` (
-    `id` BIGINT UNSIGNED,
-    `name` VARCHAR(255),
-    `balance` BIGINT UNSIGNED,
-    `order` VARCHAR(255),
-    PRIMARY KEY (`item_id`) 
-);
-
-CREATE TABLE `db_cell_phone`.`credits` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT,
     `name` VARCHAR(255),
     `balance` BIGINT UNSIGNED,
@@ -100,4 +92,22 @@ CREATE TABLE `db_cell_phone`.`credit_prices` (
     `order` TINYINT UNSIGNED,
     PRIMARY KEY (`id`, `credit_id`),
     FOREIGN KEY (`credit_id`) REFERENCES `credits` (`id`)
+);
+
+CREATE TABLE `db_cell_phone`.`topups` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT,
+    `name` VARCHAR(255),
+    `balance` BIGINT UNSIGNED,
+    `order` TINYINT UNSIGNED,
+    PRIMARY KEY (`id`) 
+);
+
+CREATE TABLE `db_cell_phone`.`topup_prices` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT,
+    `topup_id` BIGINT UNSIGNED,
+    `amount` BIGINT UNSIGNED,
+    `price` BIGINT UNSIGNED,
+    `order` TINYINT UNSIGNED,
+    PRIMARY KEY (`id`, `topup_id`),
+    FOREIGN KEY (`topup_id`) REFERENCES `topups` (`id`)
 );

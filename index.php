@@ -119,4 +119,42 @@ switch ($route) {
                 break;
         }
         break;
+    case 'topups':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/topups/index.php');
+                else
+                    include_once('./api/topups/show.php');
+                break;
+            case 'POST':
+                include_once('./api/topups/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/topups/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/topups/delete.php');
+                break;
+        }
+        break;
+    case 'topup-prices':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/topup_prices/index.php');
+                else
+                    include_once('./api/topup_prices/show.php');
+                break;
+            case 'POST':
+                include_once('./api/topup_prices/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/topup_prices/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/topup_prices/delete.php');
+                break;
+        }
+        break;
 }
