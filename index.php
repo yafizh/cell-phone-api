@@ -81,4 +81,42 @@ switch ($route) {
                 break;
         }
         break;
+    case 'credits':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/credits/index.php');
+                else
+                    include_once('./api/credits/show.php');
+                break;
+            case 'POST':
+                include_once('./api/credits/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/credits/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/credits/delete.php');
+                break;
+        }
+        break;
+    case 'credit-prices':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/credit_prices/index.php');
+                else
+                    include_once('./api/credit_prices/show.php');
+                break;
+            case 'POST':
+                include_once('./api/credit_prices/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/credit_prices/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/credit_prices/delete.php');
+                break;
+        }
+        break;
 }

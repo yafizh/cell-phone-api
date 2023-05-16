@@ -75,3 +75,29 @@ CREATE TABLE `db_cell_phone`.`item_sale_details` (
     FOREIGN KEY (`item_sale_id`) REFERENCES `item_sales` (`id`),
     FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
 );
+
+CREATE TABLE `db_cell_phone`.`credits` (
+    `id` BIGINT UNSIGNED,
+    `name` VARCHAR(255),
+    `balance` BIGINT UNSIGNED,
+    `order` VARCHAR(255),
+    PRIMARY KEY (`item_id`) 
+);
+
+CREATE TABLE `db_cell_phone`.`credits` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT,
+    `name` VARCHAR(255),
+    `balance` BIGINT UNSIGNED,
+    `order` TINYINT UNSIGNED,
+    PRIMARY KEY (`id`) 
+);
+
+CREATE TABLE `db_cell_phone`.`credit_prices` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT,
+    `credit_id` BIGINT UNSIGNED,
+    `amount` BIGINT UNSIGNED,
+    `price` BIGINT UNSIGNED,
+    `order` TINYINT UNSIGNED,
+    PRIMARY KEY (`id`, `credit_id`),
+    FOREIGN KEY (`credit_id`) REFERENCES `credits` (`id`)
+);
