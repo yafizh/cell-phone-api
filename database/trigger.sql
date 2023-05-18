@@ -1,10 +1,57 @@
 DELIMITER $$
 
 CREATE TRIGGER 
-	after_insert_item_sale_details
+	after_insert_item_in
 AFTER INSERT 
 ON 
-	item_sale_details 
+	item_in 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		items
+	SET 
+		stock = stock + NEW.count 
+	WHERE 
+		id = NEW.item_id;
+END $$
+
+CREATE TRIGGER 
+	after_update_item_in
+AFTER UPDATE 
+ON 
+	item_in 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		items
+	SET 
+		stock = (stock - OLD.count) + NEW.count 
+	WHERE 
+		id = NEW.item_id;
+END $$
+
+CREATE TRIGGER 
+	after_delete_item_in
+AFTER DELETE 
+ON 
+	item_in 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		items
+	SET 
+		stock = stock - OLD.count 
+	WHERE 
+		id = OLD.item_id;
+END $$
+
+-- 
+
+CREATE TRIGGER 
+	after_insert_item_out
+AFTER INSERT 
+ON 
+	item_out 
 FOR EACH ROW 
 BEGIN
 	UPDATE 
@@ -16,10 +63,10 @@ BEGIN
 END $$
 
 CREATE TRIGGER 
-	after_update_item_sale_details
+	after_update_item_out
 AFTER UPDATE
 ON 
-	item_sale_details 
+	item_out 
 FOR EACH ROW 
 BEGIN
 	UPDATE 
@@ -31,10 +78,10 @@ BEGIN
 END $$
 
 CREATE TRIGGER 
-	after_delete_item_sale_details
+	after_delete_item_out
 AFTER DELETE 
 ON 
-	item_sale_details 
+	item_out 
 FOR EACH ROW 
 BEGIN
 	UPDATE 
@@ -47,47 +94,4 @@ END $$
 
 -- 
 
-CREATE TRIGGER 
-	after_insert_item_supply_details
-AFTER INSERT 
-ON 
-	item_supply_details 
-FOR EACH ROW 
-BEGIN
-	UPDATE 
-		items
-	SET 
-		stock = stock + NEW.count 
-	WHERE 
-		id = NEW.item_id;
-END $$
-
-CREATE TRIGGER 
-	after_update_item_supply_details
-AFTER UPDATE 
-ON 
-	item_supply_details 
-FOR EACH ROW 
-BEGIN
-	UPDATE 
-		items
-	SET 
-		stock = (stock - OLD.count) + NEW.count 
-	WHERE 
-		id = NEW.item_id;
-END $$
-
-CREATE TRIGGER 
-	after_delete_item_supply_details
-AFTER DELETE 
-ON 
-	item_supply_details 
-FOR EACH ROW 
-BEGIN
-	UPDATE 
-		items
-	SET 
-		stock = stock - OLD.count 
-	WHERE 
-		id = OLD.item_id;
-END $$
+DELIMITER ;

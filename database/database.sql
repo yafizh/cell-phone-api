@@ -40,39 +40,27 @@ CREATE TABLE `db_cell_phone`.`items` (
     FOREIGN KEY (`item_type_id`) REFERENCES `item_types` (`id`)
 );
 
-CREATE TABLE `db_cell_phone`.`item_supplies` (
+CREATE TABLE `db_cell_phone`.`item_in` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT,
-    `supplied_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-    PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `db_cell_phone`.`item_supply_details` (
-    `item_supply_id` BIGINT UNSIGNED,
+    `user_id` BIGINT UNSIGNED NULL,
     `item_id` BIGINT UNSIGNED,
     `count` INT UNSIGNED,
-    `price` BIGINT UNSIGNED,
-    PRIMARY KEY (`item_supply_id`, `item_id`),
-    FOREIGN KEY (`item_supply_id`) REFERENCES `item_supplies` (`id`),
+    `price_buy` BIGINT UNSIGNED,
+    `in_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
     FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
 );
 
-CREATE TABLE `db_cell_phone`.`item_sales` (
+CREATE TABLE `db_cell_phone`.`item_out` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT,
-    `employee_id` BIGINT UNSIGNED,
-    `sold_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
-);
-
-CREATE TABLE `db_cell_phone`.`item_sale_details` (
-    `item_sale_id` BIGINT UNSIGNED,
+    `user_id` BIGINT UNSIGNED NULL,
     `item_id` BIGINT UNSIGNED,
     `count` INT UNSIGNED,
-    `price` BIGINT UNSIGNED,
-    PRIMARY KEY (`item_sale_id`, `item_id`),
-    FOREIGN KEY (`item_sale_id`) REFERENCES `item_sales` (`id`),
+    `price_sell` BIGINT UNSIGNED,
+    `out_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
     FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
 );
 
