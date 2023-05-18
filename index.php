@@ -158,6 +158,44 @@ switch ($route) {
                 break;
         }
         break;
+    case 'credit-in':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/credit_in/index.php');
+                else
+                    include_once('./api/credit_in/show.php');
+                break;
+            case 'POST':
+                include_once('./api/credit_in/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/credit_in/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/credit_in/delete.php');
+                break;
+        }
+        break;
+    case 'credit-out':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/credit_out/index.php');
+                else
+                    include_once('./api/credit_out/show.php');
+                break;
+            case 'POST':
+                include_once('./api/credit_out/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/credit_out/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/credit_out/delete.php');
+                break;
+        }
+        break;
     case 'topups':
         switch ($request_method) {
             case 'GET':

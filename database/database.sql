@@ -1,4 +1,6 @@
+DROP DATABASE IF EXISTS `db_cell_phone`;
 CREATE DATABASE `db_cell_phone`;
+USE `db_cell_phone`;
 
 CREATE TABLE `db_cell_phone`.`users` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT,
@@ -81,6 +83,31 @@ CREATE TABLE `db_cell_phone`.`credit_prices` (
     PRIMARY KEY (`id`, `credit_id`),
     FOREIGN KEY (`credit_id`) REFERENCES `credits` (`id`)
 );
+
+CREATE TABLE `db_cell_phone`.`credit_in` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT,
+    `user_id` BIGINT UNSIGNED NULL,
+    `credit_id` BIGINT UNSIGNED,
+    `amount` INT UNSIGNED,
+    `price_buy` BIGINT UNSIGNED,
+    `in_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+    FOREIGN KEY (`credit_id`) REFERENCES `credits` (`id`)
+);
+
+CREATE TABLE `db_cell_phone`.`credit_out` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT,
+    `user_id` BIGINT UNSIGNED NULL,
+    `credit_id` BIGINT UNSIGNED,
+    `amount` INT UNSIGNED,
+    `price_sell` BIGINT UNSIGNED,
+    `out_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+    FOREIGN KEY (`credit_id`) REFERENCES `credits` (`id`)
+);
+
 
 CREATE TABLE `db_cell_phone`.`topups` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT,
