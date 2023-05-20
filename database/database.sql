@@ -126,3 +126,27 @@ CREATE TABLE `db_cell_phone`.`topup_prices` (
     PRIMARY KEY (`id`, `topup_id`),
     FOREIGN KEY (`topup_id`) REFERENCES `topups` (`id`)
 );
+
+CREATE TABLE `db_cell_phone`.`topup_in` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT,
+    `user_id` BIGINT UNSIGNED NULL,
+    `topup_id` BIGINT UNSIGNED,
+    `amount` BIGINT UNSIGNED,
+    `price_buy` BIGINT UNSIGNED,
+    `in_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+    FOREIGN KEY (`topup_id`) REFERENCES `topups` (`id`)
+);
+
+CREATE TABLE `db_cell_phone`.`topup_out` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT,
+    `user_id` BIGINT UNSIGNED NULL,
+    `topup_id` BIGINT UNSIGNED,
+    `amount` BIGINT UNSIGNED,
+    `price_sell` BIGINT UNSIGNED,
+    `out_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+    FOREIGN KEY (`topup_id`) REFERENCES `topups` (`id`)
+);

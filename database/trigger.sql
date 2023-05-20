@@ -41,7 +41,7 @@ BEGIN
 	UPDATE 
 		items
 	SET 
-		stock = stock - OLD.count 
+		stock = (stock - (OLD.count - NEW.count)) 
 	WHERE 
 		id = OLD.item_id;
 END $$
@@ -73,7 +73,7 @@ BEGIN
 	UPDATE 
 		items
 	SET 
-		stock = (stock + OLD.count) - NEW.count 
+		stock = (stock + (OLD.count - NEW.count)) 
 	WHERE 
 		id = NEW.item_id;
 END $$
@@ -119,7 +119,7 @@ BEGIN
 	UPDATE 
 		credits
 	SET 
-		balance = (balance - OLD.amount) + NEW.amount 
+		balance = (balance - (OLD.amount - NEW.amount)) 
 	WHERE 
 		id = NEW.credit_id;
 END $$
@@ -166,7 +166,7 @@ BEGIN
 	UPDATE 
 		credits
 	SET 
-		balance = (balance + OLD.amount) - NEW.amount 
+		balance = (balance + (OLD.amount - NEW.amount)) 
 	WHERE 
 		id = NEW.credit_id;
 END $$
@@ -184,6 +184,99 @@ BEGIN
 		balance = balance + OLD.amount 
 	WHERE 
 		id = OLD.credit_id;
+END $$
+
+-- Topups Trigger - In
+CREATE TRIGGER 
+	after_insert_topup_in
+AFTER INSERT 
+ON 
+	topup_in 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		topups
+	SET 
+		balance = balance + NEW.amount 
+	WHERE 
+		id = NEW.topup_id;
+END $$
+
+CREATE TRIGGER 
+	after_update_topup_in
+AFTER UPDATE 
+ON 
+	topup_in 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		topups
+	SET 
+		balance = (balance - (OLD.amount - NEW.amount)) 
+	WHERE 
+		id = NEW.topup_id;
+END $$
+
+CREATE TRIGGER 
+	after_delete_topup_in
+AFTER DELETE 
+ON 
+	topup_in 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		topups
+	SET 
+		balance = balance - OLD.amount 
+	WHERE 
+		id = OLD.topup_id;
+END $$
+
+-- Topups Trigger - Out 
+
+CREATE TRIGGER 
+	after_insert_topup_out
+AFTER INSERT 
+ON 
+	topup_out 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		topups
+	SET 
+		balance = balance - NEW.amount 
+	WHERE 
+		id = NEW.topup_id;
+END $$
+
+CREATE TRIGGER 
+	after_update_topup_out
+AFTER UPDATE
+ON 
+	topup_out 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		topups
+	SET 
+		balance = (balance + (OLD.amount - NEW.amount)) 
+	WHERE 
+		id = NEW.topup_id;
+END $$
+
+CREATE TRIGGER 
+	after_delete_topup_out
+AFTER DELETE 
+ON 
+	topup_out 
+FOR EACH ROW 
+BEGIN
+	UPDATE 
+		topups
+	SET 
+		balance = balance + OLD.amount 
+	WHERE 
+		id = OLD.topup_id;
 END $$
 
 DELIMITER ;

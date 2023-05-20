@@ -234,4 +234,38 @@ switch ($route) {
                 break;
         }
         break;
+    case 'topup-in':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/topup_in/index.php');
+                break;
+            case 'POST':
+                include_once('./api/topup_in/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/topup_in/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/topup_in/delete.php');
+                break;
+        }
+        break;
+    case 'topup-out':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/topup_out/index.php');
+                break;
+            case 'POST':
+                include_once('./api/topup_out/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/topup_out/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/topup_out/delete.php');
+                break;
+        }
+        break;
 }
