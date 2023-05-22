@@ -2,7 +2,7 @@
 try {
     $conn->beginTransaction();
 
-    $query = "DELETE FROM topup_in WHERE id=:id";
+    $query = "DELETE FROM balance_in WHERE id=:id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $param);
     $stmt->execute();

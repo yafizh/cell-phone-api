@@ -120,6 +120,30 @@ switch ($route) {
                 break;
         }
         break;
+    case 'balances':
+        switch ($request_method) {
+            case 'GET':
+                include_once('./api/balances/index.php');
+                break;
+        }
+        break;
+    case 'balance-in':
+        switch ($request_method) {
+            case 'GET':
+                if (is_null($param))
+                    include_once('./api/balance_in/index.php');
+                break;
+            case 'POST':
+                include_once('./api/balance_in/store.php');
+                break;
+            case 'PUT':
+                include_once('./api/balance_in/update.php');
+                break;
+            case 'DELETE':
+                include_once('./api/balance_in/delete.php');
+                break;
+        }
+        break;
     case 'credits':
         switch ($request_method) {
             case 'GET':
@@ -155,25 +179,6 @@ switch ($route) {
                 break;
             case 'DELETE':
                 include_once('./api/credit_prices/delete.php');
-                break;
-        }
-        break;
-    case 'credit-in':
-        switch ($request_method) {
-            case 'GET':
-                if (is_null($param))
-                    include_once('./api/credit_in/index.php');
-                else
-                    include_once('./api/credit_in/show.php');
-                break;
-            case 'POST':
-                include_once('./api/credit_in/store.php');
-                break;
-            case 'PUT':
-                include_once('./api/credit_in/update.php');
-                break;
-            case 'DELETE':
-                include_once('./api/credit_in/delete.php');
                 break;
         }
         break;
@@ -231,23 +236,6 @@ switch ($route) {
                 break;
             case 'DELETE':
                 include_once('./api/topup_prices/delete.php');
-                break;
-        }
-        break;
-    case 'topup-in':
-        switch ($request_method) {
-            case 'GET':
-                if (is_null($param))
-                    include_once('./api/topup_in/index.php');
-                break;
-            case 'POST':
-                include_once('./api/topup_in/store.php');
-                break;
-            case 'PUT':
-                include_once('./api/topup_in/update.php');
-                break;
-            case 'DELETE':
-                include_once('./api/topup_in/delete.php');
                 break;
         }
         break;

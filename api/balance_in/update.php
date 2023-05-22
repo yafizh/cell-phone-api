@@ -5,7 +5,7 @@ try {
     $conn->beginTransaction();
 
     $query = "
-        UPDATE topup_in SET 
+        UPDATE balance_in SET 
             price_buy=:price_buy, 
             amount=:amount 
         WHERE 

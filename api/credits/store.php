@@ -3,8 +3,9 @@
 try {
     $_POST = json_decode(file_get_contents("php://input"), true);
 
-    $query = "INSERT INTO credits (`name`, `balance`, `order`) VALUES (:name, 0, :order)";
+    $query = "INSERT INTO credits (`balance_id`, `name`, `order`) VALUES (:balance_id, :name, :order)";
     $stmt = $conn->prepare($query);
+    $stmt->bindParam(':balance_id', $_POST['balance_id']);
     $stmt->bindParam(':name', $_POST['name']);
     $stmt->bindParam(':order', $_POST['order']);
     $stmt->execute();

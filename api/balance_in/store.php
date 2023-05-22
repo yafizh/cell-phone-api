@@ -6,21 +6,21 @@ try {
     $conn->beginTransaction();
 
     $query = "
-        INSERT INTO credit_in (
-            credit_id,
+        INSERT INTO balance_in (
+            balance_id,
             user_id,
             price_buy,
             amount,
             in_at 
         ) VALUES (
-            :credit_id, 
+            :balance_id, 
             NULL, 
             :price_buy, 
             :amount,
             '" . Date('Y-m-d H:i:s') . "' 
         )";
     $stmt = $conn->prepare($query);
-    $stmt->bindParam(':credit_id', $_POST['credit_id']);
+    $stmt->bindParam(':balance_id', $_POST['balance_id']);
     // $stmt->bindParam(':user_id', NULL);
     $stmt->bindParam(':price_buy', $_POST['price_buy']);
     $stmt->bindParam(':amount', $_POST['amount']);
