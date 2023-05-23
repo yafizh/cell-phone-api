@@ -149,11 +149,15 @@ ON
 FOR EACH ROW 
 BEGIN
 	UPDATE 
-		balances
+		balances 
+	INNER JOIN 
+		credits 
+	ON 
+		credits.balance_id=balances.id
 	SET 
 		balance = balance - NEW.amount 
 	WHERE 
-		id = (SELECT balance.id FROM balance INNER JOIN credits ON credits.balance_id=balance.id WHERE credits.id=NEW.credit_id LIMIT 1);
+		credits.id=NEW.credit_id;
 END $$
 
 CREATE TRIGGER 
@@ -164,11 +168,15 @@ ON
 FOR EACH ROW 
 BEGIN
 	UPDATE 
-		balances
+		balances 
+	INNER JOIN 
+		credits 
+	ON 
+		credits.balance_id=balances.id
 	SET 
 		balance = (balance + (CAST(OLD.amount AS SIGNED) - CAST(NEW.amount AS SIGNED))) 
 	WHERE 
-		id = (SELECT balance.id FROM balance INNER JOIN credits ON credits.balance_id=balance.id WHERE credits.id=NEW.credit_id LIMIT 1);
+		credits.id=NEW.credit_id;
 END $$
 
 CREATE TRIGGER 
@@ -179,11 +187,15 @@ ON
 FOR EACH ROW 
 BEGIN
 	UPDATE 
-		balances
+		balances 
+	INNER JOIN 
+		credits 
+	ON 
+		credits.balance_id=balances.id
 	SET 
 		balance = balance + OLD.amount 
 	WHERE 
-		id = (SELECT balance.id FROM balance INNER JOIN credits ON credits.balance_id=balance.id WHERE credits.id=OLD.credit_id LIMIT 1);
+		credits.id=OLD.credit_id;
 END $$
 
 -- Topups Trigger - Out 
@@ -196,11 +208,15 @@ ON
 FOR EACH ROW 
 BEGIN
 	UPDATE 
-		balances
+		balances 
+	INNER JOIN 
+		topups 
+	ON 
+		topups.balance_id=balances.id
 	SET 
-		balance = balance - NEW.amount 
+		balance = balance - NEW.amount
 	WHERE 
-		id = (SELECT balance.id FROM balance INNER JOIN topups ON topups.balance_id=balance.id WHERE topups.id=NEW.topup_id LIMIT 1);
+		topups.id=NEW.topup_id; 
 END $$
 
 CREATE TRIGGER 
@@ -211,11 +227,15 @@ ON
 FOR EACH ROW 
 BEGIN
 	UPDATE 
-		balances
+		balances 
+	INNER JOIN 
+		topups 
+	ON 
+		topups.balance_id=balances.id
 	SET 
 		balance = (balance + (CAST(OLD.amount AS SIGNED) - CAST(NEW.amount AS SIGNED))) 
 	WHERE 
-		id = (SELECT balance.id FROM balance INNER JOIN topups ON topups.balance_id=balance.id WHERE topups.id=NEW.topup_id LIMIT 1);
+		topups.id=NEW.topup_id; 
 END $$
 
 CREATE TRIGGER 
@@ -226,11 +246,15 @@ ON
 FOR EACH ROW 
 BEGIN
 	UPDATE 
-		balances
+		balances 
+	INNER JOIN 
+		topups 
+	ON 
+		topups.balance_id=balances.id
 	SET 
 		balance = balance + OLD.amount 
 	WHERE 
-		id = (SELECT balance.id FROM balance INNER JOIN topups ON topups.balance_id=balance.id WHERE topups.id=OLD.topup_id LIMIT 1);
+		topups.id=OLD.topup_id; 
 END $$
 
 

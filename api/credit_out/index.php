@@ -18,10 +18,28 @@ $query = "
     ORDER BY 
         co.out_at DESC 
 ";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-$credit_outs = $stmt->fetchAll();
+
+if (isset($_GET['page']) && isset($_GET['limit'])) {
+    $limit = $_GET['limit'];
+    $offset = ($_GET['page'] - 1) * $limit;
+
+    $query .= " LIMIT {$limit} OFFSET {$offset}";
+
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+    $credit_outs = $stmt->fetchAll();
+
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM credit_out");
+    $stmt->execute();
+    $itemsLength = $stmt->fetchColumn();
+} else {
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $credit_outs = $stmt->fetchAll();
+}
 
 foreach ($credit_outs as $index => $credit_out) {
     $query = "
@@ -41,4 +59,11 @@ foreach ($credit_outs as $index => $credit_out) {
     $credit_outs[$index]['credit_prices'] = $stmt->fetchAll();
 }
 
-echo json_encode($credit_outs);
+if (isset($_GET['page']) && isset($_GET['limit'])) {
+    echo json_encode([
+        'items' => $credit_outs,
+        'itemsLength' => $itemsLength
+    ]);
+} else {
+    echo json_encode($credit_outs);
+}

@@ -5,7 +5,13 @@ try {
 
     $conn->beginTransaction();
 
-    $query = "
+    $stmt = $conn->prepare("SELECT `balance` FROM balances FOR UPDATE");
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $balance = $stmt->fetchColumn();
+
+    if ($_POST['amount'] <= $balance) {
+        $query = "
         INSERT INTO credit_out (
             credit_id,
             user_id,
@@ -19,14 +25,21 @@ try {
             :amount,
             '" . Date('Y-m-d H:i:s') . "' 
         )";
-    $stmt = $conn->prepare($query);
-    $stmt->bindParam(':credit_id', $_POST['credit_id']);
-    // $stmt->bindParam(':user_id', NULL);
-    $stmt->bindParam(':price_sell', $_POST['price_sell']);
-    $stmt->bindParam(':amount', $_POST['amount']);
-    $stmt->execute();
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':credit_id', $_POST['credit_id']);
+        // $stmt->bindParam(':user_id', NULL);
+        $stmt->bindParam(':price_sell', $_POST['price_sell']);
+        $stmt->bindParam(':amount', $_POST['amount']);
+        $stmt->execute();
 
-    echo json_encode(['success' => true]);
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Saldo Tidak Cukup'
+        ]);
+    }
+
     $conn->commit();
 } catch (PDOException $e) {
     $conn->rollBack();
